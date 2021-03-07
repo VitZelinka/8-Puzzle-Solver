@@ -1,4 +1,5 @@
 import copy
+import time
 
 field = [[],
          [],
@@ -71,6 +72,8 @@ def insertIntoMatrix(data, matrix): #funkce na premenu stringu na matitci
 fieldInput = input("Zadejte pocatecni matici: ") #user input a zpracovani
 goalInput = input("Zadejte cilovou matici: ")
 
+start = time.perf_counter()
+
 fieldList = fieldInput.split(",")
 goalList = goalInput.split(",")
 
@@ -114,6 +117,9 @@ while flag == False: #dokola prochazi, kontroluje goal a pocita dalsi vrstvy
     objectList = copy.deepcopy(objectList2)
     for step in objectList:
         if step.matrix == goal: #jestli se najde vysledek, vypise se result.txt soubor
+            end = time.perf_counter()
+            print("Time: ", end - start)
+            time.sleep(5)
             flag = True
             f = open("result.txt", "w")
             f.write("Start matrix:\n")
@@ -137,5 +143,7 @@ while flag == False: #dokola prochazi, kontroluje goal a pocita dalsi vrstvy
                     f.write(f"|{i[0]}, {i[1]}, {i[2]}|\n")
                 f.write("\n")
                 layerPrintout += 1
+            f.write(f"\n Time: {end - start}")
+            f.close()
             print("Calculation finished.")
     layerCount += 1
