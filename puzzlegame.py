@@ -72,6 +72,9 @@ def insertIntoMatrix(data, matrix): #funkce na premenu stringu na matitci
 fieldInput = input("Zadejte pocatecni matici: ") #user input a zpracovani
 goalInput = input("Zadejte cilovou matici: ")
 
+#fieldInput = "X,1,2,3,4,5,6,7,8"
+#goalInput = "3,2,5,6,1,8,7,4,X"
+
 start = time.perf_counter()
 
 fieldList = fieldInput.split(",")
@@ -79,6 +82,7 @@ goalList = goalInput.split(",")
 
 insertIntoMatrix(fieldList, field)
 insertIntoMatrix(goalList, goal)
+
 
 firstStep = Step(field, None) #zkontroluje jestli hned 2. vrstva je goal
 firstStep.calculate()
@@ -109,10 +113,11 @@ while flag == False: #dokola prochazi, kontroluje goal a pocita dalsi vrstvy
     for step in objectList:
         step.calculate()
         for child in step.children:
-            if child.matrix in memory: #jestli je matice v pameti, preskoci
+            childMatrixTuple = (tuple(copy.copy(child.matrix[0])), tuple(copy.copy(child.matrix[1])), tuple(copy.copy(child.matrix[2])))
+            if hash(childMatrixTuple) in memory: #jestli je matice v pameti, preskoci
                 pass
             else: #jestli je matice nova, prida do
-                memory.append(child.matrix)
+                memory.append(hash((tuple(child.matrix[0]), tuple(child.matrix[1]), tuple(child.matrix[2]))))
                 objectList2.append(child)
     objectList = copy.deepcopy(objectList2)
     for step in objectList:
